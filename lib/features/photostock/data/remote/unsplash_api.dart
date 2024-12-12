@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/resources/data_state.dart';
-import 'package:photostock_app/features/photostock/data/models/elements_model.dart';
+import 'package:photostock_app/features/photostock/data/models/photos_model.dart';
 
 class UnsplashApi {
   final Dio _dio;
@@ -12,7 +12,7 @@ class UnsplashApi {
     required Dio dio,
   }) : _dio = dio;
 
-  Future<DataState<ElementsModel>> getPhotos() async {
+  Future<DataState<PhotosModel>> getPhotos() async {
     try {
       final response = await _dio.get(
         'photos/',
@@ -23,7 +23,7 @@ class UnsplashApi {
 
       if (response.statusCode == HttpStatus.ok) {
         final data = response.data;
-        return DataSuccess(ElementsModel.fromJson(data));
+        return DataSuccess(PhotosModel.fromJson(data));
       }
 
       return DataError(

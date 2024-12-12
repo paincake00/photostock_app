@@ -1,6 +1,6 @@
 import 'package:photostock_app/core/resources/data_state.dart';
 import 'package:photostock_app/features/photostock/data/remote/unsplash_api.dart';
-import 'package:photostock_app/features/photostock/domain/entities/elements_entity.dart';
+import 'package:photostock_app/features/photostock/domain/entities/photos_entity.dart';
 import 'package:photostock_app/features/photostock/domain/repository/photo_repository.dart';
 
 class PhotoRepositoryImpl implements PhotoRepository {
@@ -11,7 +11,7 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }) : _unsplashApi = unsplashApi;
 
   @override
-  Future<DataState<ElementsEntity>> getPhotos() async {
+  Future<DataState<PhotosEntity>> getPhotos() async {
     return _unsplashApi.getPhotos();
   }
 }

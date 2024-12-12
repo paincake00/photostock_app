@@ -1,6 +1,6 @@
-import 'package:photostock_app/features/photostock/domain/entities/element_entity.dart';
+import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 
-class ElementModel extends ElementEntity {
+class ElementModel extends PhotoEntity {
   ElementModel({
     super.url,
     super.username,

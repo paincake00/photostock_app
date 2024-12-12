@@ -1,11 +1,11 @@
-class ElementEntity {
+class PhotoEntity {
   final String? url;
   final String? username;
   final int? likes;
   final String? color;
   final String? blurHash;
 
-  ElementEntity({
+  PhotoEntity({
     this.url,
     this.username,
     this.likes,
