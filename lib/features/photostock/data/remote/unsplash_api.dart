@@ -1,41 +1,16 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:photostock_app/core/constants/constants.dart';
-import 'package:photostock_app/core/resources/data_state.dart';
-import 'package:photostock_app/features/photostock/data/models/elements_model.dart';
+import 'package:photostock_app/features/photostock/data/models/photo_model.dart';
+import 'package:retrofit/retrofit.dart';
 
-class UnsplashApi {
-  final Dio _dio;
+part 'unsplash_api.g.dart';
 
-  UnsplashApi({
-    required Dio dio,
-  }) : _dio = dio;
+/// API Unsplash
+@RestApi(baseUrl: apiUrl)
+abstract class UnsplashApi {
+  factory UnsplashApi(Dio dio, {String? baseUrl}) = _UnsplashApi;
 
-  Future<DataState<ElementsModel>> getPhotos() async {
-    try {
-      final response = await _dio.get(
-        'photos/',
-        queryParameters: {
-          'client_id': apiKey,
-        },
-      );
-
-      if (response.statusCode == HttpStatus.ok) {
-        final data = response.data;
-        return DataSuccess(ElementsModel.fromJson(data));
-      }
-
-      return DataError(
-        DioException(
-          error: response.statusMessage,
-          response: response,
-          type: DioExceptionType.unknown,
-          requestOptions: response.requestOptions,
-        ),
-      );
-    } on DioException catch (e) {
-      return DataError(e);
-    }
-  }
+  /// Get photos
+  @GET('/photos')
+  Future<List<PhotoModel>> getPhotos();
 }

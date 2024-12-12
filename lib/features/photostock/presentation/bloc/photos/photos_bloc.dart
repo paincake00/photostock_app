@@ -4,7 +4,9 @@ import 'package:photostock_app/features/photostock/domain/usecases/get_photos.da
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_event.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_state.dart';
 
+/// Photos bloc
 class PhotosBloc extends Bloc<PhotosEvent, PhotosState> {
+  /// Get photos use case
   final GetPhotosUseCase _getPhotosUseCase;
 
   PhotosBloc({
@@ -14,6 +16,7 @@ class PhotosBloc extends Bloc<PhotosEvent, PhotosState> {
     on<GetPhotosEvent>(_onGetPhotos);
   }
 
+  /// Get photos
   void _onGetPhotos(
     GetPhotosEvent event,
     Emitter<PhotosState> emit,

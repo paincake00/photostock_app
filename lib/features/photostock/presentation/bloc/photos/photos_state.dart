@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:photostock_app/features/photostock/domain/entities/elements_entity.dart';
+import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 
+/// Photos state
 abstract class PhotosState {
-  final ElementsEntity? data;
+  /// Photos data
+  final List<PhotoEntity>? data;
+
+  /// Photos error
   final DioException? error;
 
   const PhotosState({
@@ -11,16 +15,19 @@ abstract class PhotosState {
   });
 }
 
+/// Photos loading
 class PhotosLoading extends PhotosState {
   const PhotosLoading();
 }
 
+/// Photos done
 class PhotosDone extends PhotosState {
   const PhotosDone({
-    required ElementsEntity data,
+    required List<PhotoEntity> data,
   }) : super(data: data);
 }
 
+/// Photos error
 class PhotosError extends PhotosState {
   const PhotosError({
     required DioException error,
