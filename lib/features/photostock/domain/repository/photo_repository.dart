@@ -1,6 +1,8 @@
 import 'package:photostock_app/core/resources/data_state.dart';
-import 'package:photostock_app/features/photostock/domain/entities/elements_entity.dart';
+import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 
+/// Photo repository
 abstract class PhotoRepository {
-  Future<DataState<ElementsEntity>> getPhotos();
+  /// Get photos
+  Future<DataState<List<PhotoEntity>>> getPhotos();
 }
