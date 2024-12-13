@@ -3,7 +3,8 @@ import 'package:photostock_app/features/photostock/domain/entities/photo_entity.
 
 part 'photo_model.g.dart';
 
-/// [PhotoModel] class is a model class which is used to define the structure of the photo model.
+/// [PhotoModel] class is a model class which
+/// is used to define the structure of the photo model.
 @JsonSerializable()
 class PhotoModel extends PhotoEntity {
   PhotoModel({
