@@ -7,12 +7,12 @@ import 'package:photostock_app/features/photostock/domain/usecases/get_photos.da
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_bloc.dart';
 
 /// Service locator
-final sl = GetIt.instance;
+final serviceLocator = GetIt.instance;
 
 /// Initialize dependencies
 Future<void> initDependencies() async {
   // API
-  sl.registerSingleton<UnsplashApi>(
+  serviceLocator.registerSingleton<UnsplashApi>(
     UnsplashApi(
       Dio(
         BaseOptions(
@@ -23,23 +23,23 @@ Future<void> initDependencies() async {
   );
 
   // Repository
-  sl.registerSingleton<PhotoRepository>(
+  serviceLocator.registerSingleton<PhotoRepository>(
     PhotoRepositoryImpl(
-      unsplashApi: sl(),
+      unsplashApi: serviceLocator(),
     ),
   );
 
   // UseCase
-  sl.registerSingleton<GetPhotosUseCase>(
+  serviceLocator.registerSingleton<GetPhotosUseCase>(
     GetPhotosUseCase(
-      photoRepository: sl(),
+      photoRepository: serviceLocator(),
     ),
   );
 
   // Bloc
-  sl.registerFactory<PhotosBloc>(
+  serviceLocator.registerFactory<PhotosBloc>(
     () => PhotosBloc(
-      getPhotosUseCase: sl(),
+      getPhotosUseCase: serviceLocator(),
     ),
   );
 }
