@@ -4,7 +4,7 @@ import 'package:photostock_app/features/photostock/domain/entities/photo_entity.
 import 'package:photostock_app/features/photostock/domain/repository/photo_repository.dart';
 
 /// Get photos use case
-class GetPhotosUseCase implements UseCase<DataState<List<PhotoEntity>>, void> {
+class GetPhotosUseCase implements UseCase<DataState<List<PhotoEntity>>, int> {
   /// Photo repository
   final PhotoRepository _photoRepository;
 
@@ -14,7 +14,9 @@ class GetPhotosUseCase implements UseCase<DataState<List<PhotoEntity>>, void> {
 
   /// Call method
   @override
-  Future<DataState<List<PhotoEntity>>> call({void params}) {
-    return _photoRepository.getPhotos();
+  Future<DataState<List<PhotoEntity>>> call({required int params}) {
+    return _photoRepository.getPhotos(
+      page: params,
+    );
   }
 }

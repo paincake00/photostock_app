@@ -5,5 +5,10 @@ abstract class PhotosEvent {
 
 /// Get photos event
 class GetPhotosEvent extends PhotosEvent {
-  const GetPhotosEvent();
+  /// Page number
+  final int page;
+
+  const GetPhotosEvent({
+    required this.page,
+  });
 }

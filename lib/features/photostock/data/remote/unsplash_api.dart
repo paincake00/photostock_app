@@ -12,5 +12,9 @@ abstract class UnsplashApi {
 
   /// Get photos
   @GET('/photos')
-  Future<List<PhotoModel>> getPhotos();
+  Future<List<PhotoModel>> getPhotos({
+    @Query('client_id') required String clientId,
+    @Query('per_page') required int perPage,
+    @Query('page') required int page,
+  });
 }
