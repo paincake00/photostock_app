@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_bloc.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_event.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_state.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/components/photos_grid.dart';
-import 'package:photostock_app/features/photostock/presentation/widgets/uikit/text/app_text_style.dart';
 
 /// Home screen
 class HomeScreen extends StatefulWidget {
@@ -19,17 +17,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   /// All photos on screen
-  late final List<PhotoEntity> allPhotos;
+  late final List<PhotoEntity> _allPhotos;
 
   /// Current page
-  late int page;
+  late int _page;
+
+  /// Scroll controller
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
-    allPhotos = [];
-    page = 2;
-
     super.initState();
+
+    _allPhotos = [];
+    _page = 2;
+    _scrollController = ScrollController();
+    _scrollController.addListener(
+      scrollEndListener,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(
+      scrollEndListener,
+    );
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  /// Scroll end listener
+  void scrollEndListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      loadNewPage(_page);
+    }
   }
 
   /// Load new page
@@ -41,45 +63,46 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 
+  /// Show snack bar
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          TextConstants.appBarHeadText,
-          style: AppTextStyle.bodyMedium.value.copyWith(
-            color: context.theme.colorScheme.primary,
-          ),
-        ),
-      ),
+      backgroundColor: context.theme.colorScheme.onPrimary,
       body: BlocBuilder<PhotosBloc, PhotosState>(
         builder: (context, state) {
           if (state is PhotosLoading) {
             return PhotosGrid(
-              photos: allPhotos,
+              photos: _allPhotos,
               isLoading: true,
-              onLoading: () => loadNewPage(page),
+              scrollController: _scrollController,
             );
           }
           if (state is PhotosDone) {
             final photos = state.data;
             if (photos != null) {
-              allPhotos.addAll(photos);
-              page++;
+              _allPhotos.addAll(photos);
+              _page++;
             }
             return PhotosGrid(
-              photos: allPhotos,
+              photos: _allPhotos,
               isLoading: false,
-              onLoading: () => loadNewPage(page),
+              scrollController: _scrollController,
             );
           }
           if (state is PhotosError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.error.toString(),
-                ),
-              ),
+            _showSnackBar(
+              context,
+              state.error.toString(),
             );
           }
           return const SizedBox();
