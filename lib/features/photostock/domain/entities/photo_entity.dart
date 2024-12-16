@@ -1,10 +1,13 @@
+import 'package:photostock_app/features/photostock/domain/entities/urls_entity.dart';
+import 'package:photostock_app/features/photostock/domain/entities/user_entity.dart';
+
 /// [PhotoEntity] class is an abstract class which is used to define the structure of the photo entity.
 class PhotoEntity {
   /// Photo URL
-  final String url;
+  final UrlsEntity url;
 
   /// Username
-  final String username;
+  final UserEntity user;
 
   /// Likes
   final int likes;
@@ -17,7 +20,7 @@ class PhotoEntity {
 
   PhotoEntity({
     required this.url,
-    required this.username,
+    required this.user,
     required this.likes,
     required this.color,
     required this.blurHash,

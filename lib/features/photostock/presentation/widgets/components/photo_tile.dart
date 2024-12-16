@@ -3,6 +3,8 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/screens/photo_info.dart';
+import 'package:photostock_app/core/utils/color_ext.dart';
+import 'package:photostock_app/features/photostock/presentation/widgets/uikit/text/app_text_style.dart';
 
 /// Photo tile
 class PhotoTile extends StatelessWidget {
@@ -27,7 +29,7 @@ class PhotoTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16, bottom: 16),
             child: PhotoTileText(
-              username: photo.username,
+              username: photo.user.username,
               likes: photo.likes,
             ),
           ),
@@ -54,11 +56,7 @@ class PhotoTileImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Color(
-              int.parse(
-                '0xFF${photo.color.replaceAll('#', '')}',
-              ),
-            ).withOpacity(0.5),
+            color: ColorExt.fromHex(photo.color).withOpacity(0.5),
             blurRadius: 10,
             spreadRadius: 0,
             blurStyle: BlurStyle.normal,
@@ -82,7 +80,7 @@ class PhotoTileImage extends StatelessWidget {
               );
             },
             child: BlurHash(
-              image: photo.url,
+              image: photo.url.regular,
               hash: photo.blurHash,
               imageFit: BoxFit.cover,
             ),
@@ -115,18 +113,14 @@ class PhotoTileText extends StatelessWidget {
       children: [
         Text(
           username,
-          style: TextStyle(
+          style: AppTextStyle.titleMedium.value.copyWith(
             color: context.theme.colorScheme.onPrimary,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
           ),
         ),
         Text(
           '$likes likes',
-          style: TextStyle(
+          style: AppTextStyle.titleSmall.value.copyWith(
             color: context.theme.colorScheme.onPrimary,
-            fontSize: 10,
-            fontWeight: FontWeight.w400,
           ),
         ),
       ],

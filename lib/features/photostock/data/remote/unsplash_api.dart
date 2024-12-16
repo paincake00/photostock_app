@@ -6,7 +6,7 @@ import 'package:retrofit/retrofit.dart';
 part 'unsplash_api.g.dart';
 
 /// API Unsplash
-@RestApi(baseUrl: apiUrl)
+@RestApi(baseUrl: UnsplashApiConstants.apiUrl)
 abstract class UnsplashApi {
   factory UnsplashApi(Dio dio, {String? baseUrl}) = _UnsplashApi;
 

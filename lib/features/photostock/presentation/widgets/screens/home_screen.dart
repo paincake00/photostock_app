@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_bloc.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_event.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_state.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/components/photos_grid.dart';
+import 'package:photostock_app/features/photostock/presentation/widgets/uikit/text/app_text_style.dart';
 
 /// Home screen
 class HomeScreen extends StatefulWidget {
@@ -44,12 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Photos',
-          style: TextStyle(
+          TextConstants.appBarHeadText,
+          style: AppTextStyle.bodyMedium.value.copyWith(
             color: context.theme.colorScheme.primary,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Manrope',
           ),
         ),
       ),

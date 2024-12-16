@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:photostock_app/features/photostock/data/models/urls_model.dart';
+import 'package:photostock_app/features/photostock/data/models/user_model.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 
 part 'photo_model.g.dart';
@@ -8,12 +10,12 @@ part 'photo_model.g.dart';
 @JsonSerializable()
 class PhotoModel extends PhotoEntity {
   /// Photo URL
-  @JsonKey(name: 'urls', fromJson: _fromJsonUrls)
-  final String url;
+  @JsonKey(name: 'urls')
+  final UrlsModel url;
 
   /// Username
-  @JsonKey(name: 'user', fromJson: _fromJsonUser)
-  final String username;
+  @JsonKey(name: 'user')
+  final UserModel user;
 
   /// Likes
   @JsonKey(name: 'likes')
@@ -29,13 +31,13 @@ class PhotoModel extends PhotoEntity {
 
   PhotoModel({
     required this.url,
-    required this.username,
+    required this.user,
     required this.likes,
     required this.color,
     required this.blurHash,
   }) : super(
           url: url,
-          username: username,
+          user: user,
           likes: likes,
           color: color,
           blurHash: blurHash,
@@ -44,14 +46,4 @@ class PhotoModel extends PhotoEntity {
   /// Create a [PhotoModel] instance from a JSON object
   factory PhotoModel.fromJson(Map<String, dynamic> json) =>
       _$PhotoModelFromJson(json);
-}
-
-/// Get the photo URL from the JSON object
-String _fromJsonUrls(Map<String, dynamic> json) {
-  return json['regular'] ?? '';
-}
-
-/// Get the username from the JSON object
-String _fromJsonUser(Map<String, dynamic> json) {
-  return json['username'] ?? '';
 }

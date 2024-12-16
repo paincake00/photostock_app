@@ -19,8 +19,8 @@ class PhotoRepositoryImpl implements PhotoRepository {
   Future<DataState<List<PhotoEntity>>> getPhotos({required int page}) async {
     try {
       final response = await _unsplashApi.getPhotos(
-        clientId: apiKey,
-        perPage: perPage,
+        clientId: UnsplashApiConstants.apiKey,
+        perPage: UnsplashApiConstants.perPage,
         page: page,
       );
       return DataSuccess(response);

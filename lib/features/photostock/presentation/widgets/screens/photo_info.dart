@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
+import 'package:photostock_app/features/photostock/presentation/widgets/uikit/text/app_text_style.dart';
 
 /// Photo info screen
 class PhotoInfo extends StatelessWidget {
@@ -22,7 +24,7 @@ class PhotoInfo extends StatelessWidget {
             Stack(
               children: [
                 PhotoInfoImage(
-                  url: photo.url,
+                  url: photo.url.regular,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -32,11 +34,9 @@ class PhotoInfo extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Text(
-                      '< Back',
-                      style: TextStyle(
+                      TextConstants.goBackText,
+                      style: AppTextStyle.titleLargeW500.value.copyWith(
                         color: context.theme.colorScheme.onPrimary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -49,7 +49,7 @@ class PhotoInfo extends StatelessWidget {
                 top: 21,
               ),
               child: PhotoInfoText(
-                username: photo.username,
+                username: photo.user.username,
                 likes: photo.likes,
               ),
             ),
@@ -110,18 +110,14 @@ class PhotoInfoText extends StatelessWidget {
       children: [
         Text(
           username,
-          style: TextStyle(
+          style: AppTextStyle.bodyLarge.value.copyWith(
             color: context.theme.colorScheme.primary,
-            fontSize: 32,
-            fontWeight: FontWeight.w700,
           ),
         ),
         Text(
           '$likes likes',
-          style: TextStyle(
+          style: AppTextStyle.titleLargeW700.value.copyWith(
             color: context.theme.colorScheme.primary,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ],
