@@ -4,5 +4,7 @@ import 'package:photostock_app/features/photostock/domain/entities/photo_entity.
 /// Photo repository
 abstract class PhotoRepository {
   /// Get photos
-  Future<DataState<List<PhotoEntity>>> getPhotos();
+  Future<DataState<List<PhotoEntity>>> getPhotos({
+    required int page,
+  });
 }

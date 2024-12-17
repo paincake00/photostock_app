@@ -23,7 +23,9 @@ class PhotosBloc extends Bloc<PhotosEvent, PhotosState> {
   ) async {
     emit(const PhotosLoading());
 
-    final dataState = await _getPhotosUseCase.call();
+    final dataState = await _getPhotosUseCase.call(
+      params: event.page,
+    );
 
     if (dataState is DataSuccess && dataState.data != null) {
       emit(PhotosDone(data: dataState.data!));

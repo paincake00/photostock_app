@@ -24,9 +24,17 @@ class _UnsplashApi implements UnsplashApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<PhotoModel>> getPhotos() async {
+  Future<List<PhotoModel>> getPhotos({
+    required String clientId,
+    required int perPage,
+    required int page,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'client_id': clientId,
+      r'per_page': perPage,
+      r'page': page,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<PhotoModel>>(Options(
