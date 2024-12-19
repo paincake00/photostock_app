@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_bloc.dart';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _allPhotos = [];
     _page = 2;
+
     _scrollController = ScrollController();
     _scrollController.addListener(
       scrollEndListener,
@@ -63,6 +65,14 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 
+  /// Calculate constrainted width
+  double _calculateConstraintedWidth(double screenWidth) {
+    return (screenWidth > ScreenConstants.desktopWidthStart
+            ? screenWidth * ScreenConstants.largeScreenPercentage
+            : screenWidth)
+        .clamp(0, ScreenConstants.maxWidth);
+  }
+
   /// Show snack bar
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -78,34 +88,44 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.colorScheme.onPrimary,
-      body: BlocBuilder<PhotosBloc, PhotosState>(
-        builder: (context, state) {
-          if (state is PhotosLoading) {
-            return PhotosGrid(
-              photos: _allPhotos,
-              isLoading: true,
-              scrollController: _scrollController,
-            );
-          }
-          if (state is PhotosDone) {
-            final photos = state.data;
-            if (photos != null) {
-              _allPhotos.addAll(photos);
-              _page++;
-            }
-            return PhotosGrid(
-              photos: _allPhotos,
-              isLoading: false,
-              scrollController: _scrollController,
-            );
-          }
-          if (state is PhotosError) {
-            _showSnackBar(
-              context,
-              state.error.toString(),
-            );
-          }
-          return const SizedBox();
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double screenWidth = _calculateConstraintedWidth(
+            constraints.maxWidth,
+          );
+
+          return BlocBuilder<PhotosBloc, PhotosState>(
+            builder: (context, state) {
+              if (state is PhotosLoading) {
+                return PhotosGrid(
+                  photos: _allPhotos,
+                  isLoading: true,
+                  scrollController: _scrollController,
+                  screenWidth: screenWidth,
+                );
+              }
+              if (state is PhotosDone) {
+                final photos = state.data;
+                if (photos != null) {
+                  _allPhotos.addAll(photos);
+                  _page++;
+                }
+                return PhotosGrid(
+                  photos: _allPhotos,
+                  isLoading: false,
+                  scrollController: _scrollController,
+                  screenWidth: screenWidth,
+                );
+              }
+              if (state is PhotosError) {
+                _showSnackBar(
+                  context,
+                  state.error.toString(),
+                );
+              }
+              return const SizedBox();
+            },
+          );
         },
       ),
     );
