@@ -12,6 +12,17 @@ class UnsplashApiConstants {
   static const int perPage = 8;
 }
 
+class ScreenConstants {
+  /// Small screen percentage
+  static const double largeScreenPercentage = 0.9;
+
+  /// Max width
+  static const double maxWidth = 1000;
+
+  /// Desktop width start
+  static const double desktopWidthStart = 700;
+}
+
 /// Text Constants class
 class TextConstants {
   /// AppBar head text
