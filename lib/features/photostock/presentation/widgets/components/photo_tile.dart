@@ -20,20 +20,23 @@ class PhotoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12),
-      child: Stack(
-        alignment: Alignment.bottomLeft,
-        children: [
-          PhotoTileImage(
-            photo: photo,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 16),
-            child: PhotoTileText(
-              username: photo.user.username,
-              likes: photo.likes,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            PhotoTileImage(
+              photo: photo,
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 16),
+              child: PhotoTileText(
+                username: photo.user.username,
+                likes: photo.likes,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -56,16 +59,17 @@ class PhotoTileImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: ColorExt.fromHex(photo.color).withOpacity(0.5),
+            color: ColorExt.fromHex(photo.color).withValues(
+              alpha: 0.5,
+            ),
             blurRadius: 10,
             spreadRadius: 0,
             blurStyle: BlurStyle.normal,
           ),
         ],
       ),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.height / 2.5,
+      child: AspectRatio(
+        aspectRatio: 1,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: GestureDetector(
