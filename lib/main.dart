@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_bloc.dart';
-import 'package:photostock_app/features/photostock/presentation/bloc/photos/photos_event.dart';
-import 'package:photostock_app/features/photostock/presentation/widgets/screens/home_screen.dart';
+import 'package:photostock_app/core/utils/context_ext.dart';
+import 'package:photostock_app/features/photostock/presentation/di/app_scope.dart';
+import 'package:photostock_app/features/photostock/presentation/di/app_scope_provider.dart';
+import 'package:photostock_app/features/photostock/presentation/widgets/screens/photo_grid_screen/photo_grid_screen.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/uikit/theme/app_theme_data.dart';
-import 'package:photostock_app/injector.dart';
 
+/// Main app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: '.env');
 
-  await initDependencies();
-
+  /// Run app
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  /// App scope
+  late IAppScope _appScope;
+
+  @override
+  void initState() {
+    super.initState();
+    _appScope = AppScope();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => serviceLocator<PhotosBloc>()
-        ..add(
-          const GetPhotosEvent(page: 1),
-        ),
+    return AppScopeProvider(
+      dependencies: _appScope,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppThemeData.lightTheme,
-        home: const HomeScreen(),
+        home: Scaffold(
+          backgroundColor: context.theme.colorScheme.onPrimary,
+          body: const PhotoGridScreen(),
+        ),
       ),
     );
   }

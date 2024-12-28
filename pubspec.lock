@@ -230,6 +230,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  elementary:
+    dependency: "direct main"
+    description:
+      name: elementary
+      sha256: "0e8e5cc6039b0e9c42d23f8e579d98f2f7a1c3e8e4fc42e45b5a5ed88b68de6a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
+  elementary_helper:
+    dependency: "direct main"
+    description:
+      name: elementary_helper
+      sha256: "85b74b5fabb9c1ebad7d59db750e271bf8865a50d38cf889698f052f93d330ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
+  elementary_test:
+    dependency: "direct main"
+    description:
+      name: elementary_test
+      sha256: "92eb1c42465fd7a235e43dd663ee921ae3f9ed803b5530e020cabff15bdcc1a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -480,6 +504,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  mocktail:
+    dependency: transitive
+    description:
+      name: mocktail
+      sha256: "890df3f9688106f25755f26b1c60589a92b3ab91a22b8b224947ad041bf172d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   nested:
     dependency: transitive
     description:
@@ -805,6 +837,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  union_state:
+    dependency: "direct main"
+    description:
+      name: union_state
+      sha256: d442c0bc790dce4690ca8db3389b5c3981f25629d2b975b1bbb35691519b28d4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   uuid:
     dependency: transitive
     description:

@@ -20,6 +20,10 @@ dependencies:
   flutter_blurhash: ^0.8.2
   flutter_cache_manager: ^3.4.1
   cached_network_image: ^3.4.1
+  elementary: ^3.2.0
+  elementary_helper: ^1.0.2
+  elementary_test: ^2.1.0
+  union_state: ^0.0.3
 
 dev_dependencies:
   flutter_test:
