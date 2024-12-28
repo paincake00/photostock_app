@@ -15,11 +15,10 @@ class PhotoRepositoryImpl implements PhotoRepository {
   /// Get photos
   @override
   Future<List<PhotoEntity>> getPhotos({required int page}) async {
-    final response = await _unsplashApi.getPhotos(
+    return _unsplashApi.getPhotos(
       clientId: UnsplashApiConstants.apiKey,
       perPage: UnsplashApiConstants.perPage,
       page: page,
     );
-    return response;
   }
 }

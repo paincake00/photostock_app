@@ -30,7 +30,8 @@ class PhotoGridScreenWM
 
   /// Photos state
   final _photosState = UnionStateNotifier<List<PhotoEntity>>.loading();
-  // late final ScrollController _scrollController;
+
+  /// Scroll controller
   final _scrollController = ScrollController();
 
   /// Page number
@@ -89,8 +90,10 @@ class PhotoGridScreenWM
       final newPhotos = await model.getPhotos(_page);
       _page++;
       if (previousData != null) {
-        previousData.addAll(newPhotos);
-        _photosState.content(previousData);
+        _photosState.content([
+          ...previousData,
+          ...newPhotos,
+        ]);
       } else {
         _photosState.content(newPhotos);
       }
