@@ -37,10 +37,15 @@ class PhotoGridScreenWM
   /// Page number
   int _page = 1;
 
+  /// Is Loading of grid
+  bool _isLoading = false;
+
   @override
   UnionStateNotifier<List<PhotoEntity>> get photosState => _photosState;
   @override
   ScrollController get scrollController => _scrollController;
+  @override
+  bool get isLoading => _isLoading;
 
   @override
   void initWidgetModel() {
@@ -85,6 +90,7 @@ class PhotoGridScreenWM
   Future<void> _loadPhotos() async {
     final previousData = _photosState.value.data;
     _photosState.loading(previousData);
+    _isLoading = true;
 
     try {
       final newPhotos = await model.getPhotos(_page);
@@ -94,11 +100,13 @@ class PhotoGridScreenWM
           ...previousData,
           ...newPhotos,
         ]);
+        _isLoading = false;
       } else {
         _photosState.content(newPhotos);
       }
     } on Exception catch (e) {
       _photosState.failure(e, previousData);
+      _isLoading = true;
     }
   }
 }
@@ -109,4 +117,7 @@ abstract interface class IPhotoGridWM implements IWidgetModel {
 
   /// Scroll controller
   ScrollController get scrollController;
+
+  /// Is loading of grid
+  bool get isLoading;
 }

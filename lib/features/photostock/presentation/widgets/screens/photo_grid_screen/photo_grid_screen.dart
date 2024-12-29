@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:photostock_app/core/constants/constants.dart';
+import 'package:photostock_app/core/utils/layout/calculator_constraints.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/components/photos_grid.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/screens/photo_grid_screen/photo_grid_screen_wm.dart';
@@ -13,47 +13,33 @@ class PhotoGridScreen extends ElementaryWidget<IPhotoGridWM> {
     WidgetModelFactory wmFactory = photoGridScreenWMFactory,
   }) : super(wmFactory, key: key);
 
-  /// Calculate constrainted width
-  double _calculateConstraintedWidth(double screenWidth) {
-    return (screenWidth > ScreenConstants.desktopWidthStart
-            ? screenWidth * ScreenConstants.largeScreenPercentage
-            : screenWidth)
-        .clamp(0, ScreenConstants.maxWidth);
-  }
-
   @override
   Widget build(IPhotoGridWM wm) {
     return LayoutBuilder(builder: (context, constraints) {
-      double screenWidth = _calculateConstraintedWidth(
+      double screenWidth = CalculatorConstraints.calculateConstraintedWidth(
         constraints.maxWidth,
       );
       return UnionStateListenableBuilder<List<PhotoEntity>>(
         unionStateListenable: wm.photosState,
         loadingBuilder: (context, data) => PhotosGrid(
           photos: data ?? [],
-          isLoading: true,
+          isLoading: wm.isLoading,
           scrollController: wm.scrollController,
           screenWidth: screenWidth,
         ),
-        failureBuilder: (context, error, child) => const _ErrorWidget(),
+        failureBuilder: (context, error, child) => PhotosGrid(
+          photos: const [],
+          isLoading: wm.isLoading,
+          scrollController: wm.scrollController,
+          screenWidth: screenWidth,
+        ),
         builder: (context, data) => PhotosGrid(
           photos: data,
-          isLoading: false,
+          isLoading: wm.isLoading,
           scrollController: wm.scrollController,
           screenWidth: screenWidth,
         ),
       );
     });
-  }
-}
-
-class _ErrorWidget extends StatelessWidget {
-  const _ErrorWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Something went wrong'),
-    );
   }
 }
