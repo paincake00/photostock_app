@@ -100,10 +100,10 @@ class PhotoGridScreenWM
           ...previousData,
           ...newPhotos,
         ]);
-        _isLoading = false;
       } else {
         _photosState.content(newPhotos);
       }
+      _isLoading = false;
     } on Exception catch (e) {
       _photosState.failure(e, previousData);
       _isLoading = true;

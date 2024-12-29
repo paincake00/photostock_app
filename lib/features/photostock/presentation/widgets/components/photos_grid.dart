@@ -5,6 +5,7 @@ import 'package:photostock_app/core/constants/constants.dart';
 import 'package:photostock_app/core/utils/context_ext.dart';
 import 'package:photostock_app/features/photostock/domain/entities/photo_entity.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/components/photo_tile.dart';
+import 'package:photostock_app/features/photostock/presentation/widgets/uikit/app_sizes.dart';
 import 'package:photostock_app/features/photostock/presentation/widgets/uikit/text/app_text_style.dart';
 
 /// Photos grid
@@ -37,52 +38,63 @@ class PhotosGrid extends StatelessWidget {
     return screenWidth > ScreenConstants.desktopWidthStart ? 4 : 2;
   }
 
+  /// Calculate offset bottom screen
+  double _calculateOffsetBottomScreen(
+      BuildContext context, double screenWidth) {
+    return screenWidth >= ScreenConstants.desktopWidthStart
+        ? MediaQuery.of(context).size.height / 2
+        : MediaQuery.of(context).size.height / 8;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: SizedBox(
-            width: _screenWidth,
-            child: CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: _scrollController,
-              slivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: _SliverPersistentHeaderDelegate(),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  sliver: SliverGrid.builder(
-                    itemCount: _photos.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _calculateColumnsCount(
-                        _screenWidth,
-                      ),
-                      childAspectRatio: 1,
-                    ),
-                    itemBuilder: (context, index) => PhotoTile(
-                      photo: _photos[index],
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                  ),
-                ),
-              ],
+    return Center(
+      child: SizedBox(
+        width: _screenWidth,
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: _scrollController,
+          slivers: [
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _SliverPersistentHeaderDelegate(),
             ),
-          ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              sliver: SliverGrid.builder(
+                itemCount: _photos.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _calculateColumnsCount(
+                    _screenWidth,
+                  ),
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) => PhotoTile(
+                  photo: _photos[index],
+                ),
+              ),
+            ),
+            if (_isLoading)
+              SliverToBoxAdapter(
+                child: Positioned(
+                  bottom: MediaQuery.of(context).size.height / 2 - 36,
+                  left: MediaQuery.of(context).size.width / 2 - 10,
+                  child: const CupertinoActivityIndicator(
+                    radius: AppSizes.double10,
+                  ),
+                ),
+              ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: _calculateOffsetBottomScreen(
+                  context,
+                  _screenWidth,
+                ),
+              ),
+            ),
+          ],
         ),
-        if (_isLoading)
-          Positioned(
-            bottom: MediaQuery.of(context).size.height / 2 - 36,
-            left: MediaQuery.of(context).size.width / 2 - 12,
-            child: const CupertinoActivityIndicator(),
-          ),
-      ],
+      ),
     );
   }
 }
