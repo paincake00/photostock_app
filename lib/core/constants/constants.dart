@@ -10,6 +10,9 @@ class UnsplashApiConstants {
 
   /// API query parameter: per page
   static const int perPage = 8;
+
+  /// API content type
+  static const String contentType = 'application/json';
 }
 
 class ScreenConstants {
